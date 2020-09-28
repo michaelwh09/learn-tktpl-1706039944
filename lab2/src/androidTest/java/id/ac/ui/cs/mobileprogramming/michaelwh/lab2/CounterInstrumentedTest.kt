@@ -35,4 +35,10 @@ class CounterInstrumentedTest {
         onView(withId(R.id.fab)).perform(click())
         onView(withId(R.id.textview_first)).check(matches(withText("1")))
     }
+
+    @Test
+    fun afterDecrementShouldBeMinusOne() {
+        onView(withId(R.id.fab2)).perform(click())
+        onView(withId(R.id.textview_first)).check(matches(withText("-1")))
+    }
 }

@@ -7,4 +7,8 @@ class Counter {
     fun increment() {
         counter++
     }
+
+    fun decrement() {
+        counter--
+    }
 }

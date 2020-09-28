@@ -32,4 +32,12 @@ class CounterUnitTest {
         counter.increment()
         assertEquals(2, counter.counter)
     }
+
+    @Test
+    fun counter_decrement_correct() {
+        counter.decrement()
+        assertEquals(-1, counter.counter)
+        counter.decrement()
+        assertEquals(-2, counter.counter)
+    }
 }

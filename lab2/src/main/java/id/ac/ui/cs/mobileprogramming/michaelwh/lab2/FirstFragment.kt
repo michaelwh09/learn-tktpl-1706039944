@@ -28,5 +28,9 @@ class FirstFragment : Fragment() {
             counter.increment()
             textview_first.text = counter.counter.toString()
         }
+        fab2.setOnClickListener {
+            counter.decrement()
+            textview_first.text = counter.counter.toString()
+        }
     }
 }
