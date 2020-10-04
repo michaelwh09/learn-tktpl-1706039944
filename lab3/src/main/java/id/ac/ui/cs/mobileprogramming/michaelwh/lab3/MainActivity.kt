@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private val timeout = 2000
     private var seconds = 0
     private var running = false
+    private var timer: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,23 +24,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickStart(view: View?) {
+        if (running) return
         running = true
-        CoroutineScope(Dispatchers.Main).launch {
+        timer = CoroutineScope(Dispatchers.Main).launch {
             runTimer()
         }
         materialButton1.isEnabled = false
     }
 
     fun onClickStop(view: View?) {
+        stopJob()
         running = false
         materialButton1.isEnabled = true
     }
 
     fun onClickReset(view: View?) {
+        stopJob()
         running = false
         seconds = 0
         setTimeText(time_view)
         materialButton1.isEnabled = true
+    }
+
+    private fun stopJob() {
+        timer?.cancel()
     }
 
     override fun onBackPressed() {
@@ -59,9 +67,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun runTimer() = withContext(Dispatchers.Main) {
-        while (running) {
+        while (true) {
             setTimeText(time_view)
-            seconds++
+            if (running) {
+                seconds++
+            }
             delay(1000L)
         }
     }
