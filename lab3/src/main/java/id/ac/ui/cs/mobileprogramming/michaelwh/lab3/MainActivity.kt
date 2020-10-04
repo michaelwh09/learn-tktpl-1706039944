@@ -67,11 +67,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun runTimer() = withContext(Dispatchers.Main) {
-        while (true) {
+        while (running) {
             setTimeText(time_view)
-            if (running) {
-                seconds++
-            }
+            seconds++
             delay(1000L)
         }
     }
