@@ -1,8 +1,7 @@
 package id.ac.ui.cs.mobileprogramming.michaelwh.lab4
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import id.ac.ui.cs.mobileprogramming.michaelwh.lab4.ui.main.MainFragment
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
