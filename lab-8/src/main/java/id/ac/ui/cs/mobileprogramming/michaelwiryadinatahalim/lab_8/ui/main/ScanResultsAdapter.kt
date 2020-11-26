@@ -8,14 +8,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.R
+import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.utils.RecyclerViewOnClickListener
 
-class ScanResultsAdapter(private val results: List<ScanResult>):
+class ScanResultsAdapter(private val results: List<ScanResult>, private val listener: RecyclerViewOnClickListener<ScanResult>):
 RecyclerView.Adapter<ScanResultsAdapter.ViewHolder>(){
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.textView)
 
-        fun bindTo(wifi: ScanResult) {
+        fun bindTo(wifi: ScanResult, itemClickListener: RecyclerViewOnClickListener<ScanResult>) {
             textView.text = wifi.SSID
         }
     }
@@ -26,7 +27,7 @@ RecyclerView.Adapter<ScanResultsAdapter.ViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindTo(results[position])
+        holder.bindTo(results[position], listener)
     }
 
     override fun getItemCount(): Int {
