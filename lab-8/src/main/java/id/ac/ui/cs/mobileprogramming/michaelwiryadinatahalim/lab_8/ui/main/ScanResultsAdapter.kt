@@ -18,6 +18,9 @@ RecyclerView.Adapter<ScanResultsAdapter.ViewHolder>(){
 
         fun bindTo(wifi: ScanResult, itemClickListener: RecyclerViewOnClickListener<ScanResult>) {
             textView.text = wifi.SSID
+            textView.setOnClickListener {
+                itemClickListener.onItemClicked(itemView, wifi)
+            }
         }
     }
 

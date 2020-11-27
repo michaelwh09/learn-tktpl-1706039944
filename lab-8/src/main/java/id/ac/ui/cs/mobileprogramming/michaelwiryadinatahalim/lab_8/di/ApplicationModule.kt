@@ -4,7 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ApplicationComponent
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.service.PipeDreamService
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -13,17 +13,16 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
+@ExperimentalSerializationApi
 @Module
-@InstallIn(ActivityRetainedComponent::class)
-class ActivityRetainedModule {
-
+@InstallIn(ApplicationComponent::class)
+class ApplicationModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().build()
     }
 
-    @ExperimentalSerializationApi
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit {

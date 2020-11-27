@@ -7,7 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.data.WifiListLiveData
+import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.utils.State
 
 class MainViewModel @ViewModelInject constructor(@ApplicationContext application: Context) : ViewModel() {
-    val wifiResults: LiveData<List<ScanResult>> = WifiListLiveData.get(application)
+    val wifiResults: LiveData<State<List<ScanResult>>> = WifiListLiveData.get(application)
 }

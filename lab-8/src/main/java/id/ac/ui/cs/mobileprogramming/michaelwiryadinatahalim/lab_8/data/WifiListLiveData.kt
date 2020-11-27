@@ -8,8 +8,9 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
 import android.util.Log
 import androidx.lifecycle.LiveData
+import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.utils.State
 
-class WifiListLiveData(private val context: Context) : LiveData<List<ScanResult>>(){
+class WifiListLiveData(private val context: Context) : LiveData<State<List<ScanResult>>>(){
     val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
     companion object {
@@ -29,20 +30,21 @@ class WifiListLiveData(private val context: Context) : LiveData<List<ScanResult>
             val success = intent?.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
             if (success == true) {
                 onSuccess()
+            } else {
+                value = State.failed()
             }
-
         }
 
         private fun onSuccess() {
             val results = wifiManager.scanResults
-            value = results
+            value = State.success(results)
         }
 
     }
 
     override fun onActive() {
         super.onActive()
-        value = emptyList()
+        value = State.loading()
         val intentFilter = IntentFilter()
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         context.registerReceiver(wifiScanBroadcastReceiver, intentFilter)
