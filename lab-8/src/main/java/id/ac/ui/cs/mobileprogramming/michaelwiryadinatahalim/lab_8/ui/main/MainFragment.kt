@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.R
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.utils.RecyclerViewOnClickListener
@@ -45,12 +46,14 @@ class MainFragment : Fragment(), RecyclerViewOnClickListener<ScanResult> {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        rv_main.isVisible = false
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) -> {
                 listenWifiResult()
+                onSendResponse()
             }
             else -> {
                 requestPermissionLauncher.launch(
@@ -64,6 +67,7 @@ class MainFragment : Fragment(), RecyclerViewOnClickListener<ScanResult> {
             wifi_progress_bar.isVisible = false
             when (wifi) {
                 is State.Success -> {
+                    rv_main.isVisible = true
                     val adapter = ScanResultsAdapter(wifi.data, this)
                     rv_main.layoutManager = LinearLayoutManager(requireContext())
                     rv_main.adapter = adapter
@@ -80,9 +84,39 @@ class MainFragment : Fragment(), RecyclerViewOnClickListener<ScanResult> {
             .setMessage("SSID: ${data.SSID}, BSSID: ${data.BSSID},CAP: ${data.capabilities}")
             .setPositiveButton("Kirim") {
                     dialog, _ -> dialog.dismiss()
+                sendViewModel.sendWifi(data)
             }
             .setNegativeButton("Tutup") {
                     dialog, _ -> dialog.dismiss()
             }.show()
+    }
+    
+    private fun onSendResponse() {
+        sendViewModel.responseValue.observe(viewLifecycleOwner, {response ->
+            when (response) {
+                is State.Success -> {
+                    if (response.data.status) {
+                        Snackbar.make(
+                            main, "Pengiriman berhasil",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Snackbar.make(
+                            main, "Data salah",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+
+                    }
+                }
+                is State.Failed -> {
+                    Snackbar.make(
+                        main, "Pengiriman gagal",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+
+                }
+                else -> {}
+            }
+        })
     }
 }

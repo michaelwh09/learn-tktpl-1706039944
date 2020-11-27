@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Lab-8</string>
+    <string name="error">Mohon maaf terjadi kegagalan</string>
 </resources>

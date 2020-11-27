@@ -35,7 +35,7 @@ class WifiListLiveData(private val context: Context) : LiveData<State<List<ScanR
             }
         }
 
-        private fun onSuccess() {
+        fun onSuccess() {
             val results = wifiManager.scanResults
             value = State.success(results)
         }
@@ -48,6 +48,7 @@ class WifiListLiveData(private val context: Context) : LiveData<State<List<ScanR
         val intentFilter = IntentFilter()
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         context.registerReceiver(wifiScanBroadcastReceiver, intentFilter)
+        wifiScanBroadcastReceiver.onSuccess()  //Get previous scan
     }
 
     override fun onInactive() {
