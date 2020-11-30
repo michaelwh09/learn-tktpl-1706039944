@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.model.Message
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.model.Response
+import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.model.Wifi
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.service.PipeDreamService
 import id.ac.ui.cs.mobileprogramming.michaelwiryadinatahalim.lab_8.utils.State
 import kotlinx.coroutines.Dispatchers
@@ -23,10 +24,11 @@ class SendWifiViewModel @ViewModelInject constructor(private val pipeDreamServic
         _responseValue.postValue(State.loading())
     }
 
-    fun sendWifi(data: ScanResult) {
+    fun sendWifi(wifis: List<ScanResult>) {
         viewModelScope.launch(Dispatchers.IO) {
+            val datas: List<Wifi> = wifis.map { Wifi(it.SSID, it.BSSID, it.capabilities) }
             _responseValue.postValue(State.loading())
-            val message = Message("SSID: ${data.SSID}, BSSID: ${data.BSSID},CAP: ${data.capabilities}")
+            val message = Message(datas)
             try {
                 val resp = pipeDreamService.sendWifi(message).await()
                 _responseValue.postValue(State.success(resp))
