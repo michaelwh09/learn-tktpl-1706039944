@@ -1,2 +1,3 @@
+include ':lab-8'
 include ':lab1'
 rootProject.name = "lab"
