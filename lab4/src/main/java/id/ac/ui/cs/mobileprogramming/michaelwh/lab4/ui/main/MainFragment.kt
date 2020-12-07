@@ -40,7 +40,7 @@ class MainFragment : Fragment() {
             val todoText = todo.editText?.text.toString().trim()
             val command = todoText.split(" ")
             if (command[0].equals("fib", ignoreCase = true) && command[1].isDigitsOnly()) {
-                val result = fibonacci(Integer.parseInt(command[1]))
+                val result = fibonacci(command[1].toLong())
                 model.addTodo("Fibonnaci ${command[1]} is $result")
             } else {
                 model.addTodo(todoText)
@@ -51,5 +51,5 @@ class MainFragment : Fragment() {
         }
     }
 
-    external fun fibonacci(input: Int): Int
+    external fun fibonacci(input: Long): Int
 }
